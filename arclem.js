@@ -405,8 +405,13 @@ function payment( amount, payment_code ) {
         if (this.readyState === this.DONE) {
             var result = JSON.parse(this.responseText);
             console.log(this.responseText);
-            redirect_url = result.response.actions.mobile_web_checkout_url;
-            window.location.href = redirect_url;
+            if (result.status == "ok") {
+                redirect_url = result.response.actions.mobile_web_checkout_url;
+                window.location.href = redirect_url;
+            } else {
+                document.getElementById("validity").innerHTML = result.msg;
+                $('#cashless').modal('hide');
+            }
         }
     });
   
